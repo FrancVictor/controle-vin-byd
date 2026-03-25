@@ -325,6 +325,8 @@ def baixar_pdf_vins():
 # EXPORTAR PLANILHA EXCEL
 # ===============================
 
+from io import BytesIO
+
 @app.route("/exportar_planilha")
 def exportar_planilha():
 
@@ -334,13 +336,25 @@ def exportar_planilha():
 
     conn.close()
 
+    if df.empty:
+        return "Nenhum registro encontrado."
+
+    # criar arquivo em memória
+    output = BytesIO()
+
+    # salvar Excel na memória
+    df.to_excel(output, index=False)
+
+    output.seek(0)
+
     hoje = datetime.now().strftime("%d-%m-%Y")
 
-    nome_arquivo = f"Relatorio_VINs_{hoje}.xlsx"
-
-    df.to_excel(nome_arquivo, index=False)
-
-    return send_file(nome_arquivo, as_attachment=True)
+    return send_file(
+        output,
+        download_name=f"Relatorio_VINs_{hoje}.xlsx",
+        as_attachment=True,
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 
 
 # ===============================
