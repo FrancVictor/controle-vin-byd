@@ -1,0 +1,380 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Layout geral */
+body {
+    display: flex;
+    background: #f4f6f9;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: #1e3c48;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    height: 100%;
+}
+
+.sidebar h2 {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    background: #2c5364;
+}
+
+/* Conteúdo principal */
+.main {
+    margin-left: 220px;
+    padding: 30px;
+    width: 100%;
+}
+
+/* Topo */
+.header {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #1e3c48;
+}
+
+/* Card */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 500px;
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+input:focus {
+    border-color: #1e3c48;
+    outline: none;
+}
+
+/* Botão */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #1e3c48;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2c5364;
+}
+
+/* Cards do dashboard */
+.dashboard {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 200px;
+    text-align: center;
+}
+
+.stat h3 {
+    color: #1e3c48;
+}
+
+.stat p {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* ========================= */
+/* RESET */
+/* ========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* ========================= */
+/* BODY */
+/* ========================= */
+
+body{
+    background:#f4f6f9;
+    display:flex;
+}
+
+
+/* ========================= */
+/* SIDEBAR */
+/* ========================= */
+
+.sidebar{
+
+    width:220px;
+    height:100vh;
+    background:#111827;
+    color:white;
+    position:fixed;
+    left:0;
+    top:0;
+    padding:20px;
+
+}
+
+.sidebar h2{
+
+    margin-bottom:30px;
+    text-align:center;
+    color:#22c55e;
+
+}
+
+.sidebar a{
+
+    display:block;
+    padding:12px;
+    margin-bottom:10px;
+    text-decoration:none;
+    color:white;
+    border-radius:6px;
+    transition:0.3s;
+
+}
+
+.sidebar a:hover{
+
+    background:#1f2937;
+
+}
+
+
+/* ========================= */
+/* MAIN */
+/* ========================= */
+
+.main{
+
+    margin-left:240px;
+    padding:30px;
+    width:100%;
+
+}
+
+
+/* ========================= */
+/* HEADER */
+/* ========================= */
+
+.header{
+
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:25px;
+
+}
+
+
+/* ========================= */
+/* CARD */
+/* ========================= */
+
+.card{
+
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    max-width:500px;
+
+}
+
+
+/* ========================= */
+/* INPUTS */
+/* ========================= */
+
+input{
+
+    width:100%;
+    padding:12px;
+    margin-bottom:12px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    font-size:15px;
+
+}
+
+input:focus{
+
+    outline:none;
+    border-color:#2563eb;
+
+}
+
+
+/* ========================= */
+/* BUTTON */
+/* ========================= */
+
+button{
+
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px;
+    width:100%;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.2s;
+
+}
+
+button:hover{
+
+    background:#1e40af;
+
+}
+
+
+/* ========================= */
+/* ERRO */
+/* ========================= */
+
+.erro{
+
+    color:red;
+    margin-bottom:10px;
+
+}
+
+
+/* ========================= */
+/* DASHBOARD */
+/* ========================= */
+
+.dashboard-grid{
+
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:20px;
+
+}
+
+.dashboard-card{
+
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    text-align:center;
+
+}
+
+.dashboard-card h3{
+
+    font-size:18px;
+    margin-bottom:10px;
+    color:#6b7280;
+
+}
+
+.dashboard-card span{
+
+    font-size:35px;
+    font-weight:bold;
+    color:#2563eb;
+
+}
+
+
+/* ========================= */
+/* META CARD */
+/* ========================= */
+
+.meta{
+
+    background:#22c55e;
+    color:white;
+
+}
+
+.producao{
+
+    background:#2563eb;
+    color:white;
+
+}
+
+.atingimento{
+
+    background:#f59e0b;
+    color:white;
+
+}
+
+
+/* ========================= */
+/* RESPONSIVO */
+/* ========================= */
+
+@media (max-width:900px){
+
+.dashboard-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+.main{
+
+    margin-left:0;
+
+}
+
+.sidebar{
+
+    position:relative;
+    width:100%;
+    height:auto;
+
+}
+
+}

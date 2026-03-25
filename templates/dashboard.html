@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard BYD</title>
+
+    <!-- CSS precisa ficar no HEAD -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="main">
+
+    <div class="header">
+        Dashboard Produção
+    </div>
+
+    <div class="card">
+
+        <h2>Total hoje: {{ total }}</h2>
+
+        <br>
+
+        <a href="/relatorio">
+            <button>Baixar Report de Fechamento</button>
+        </a>
+
+        <br><br>
+
+        <a href="/">
+            <button>Voltar</button>
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

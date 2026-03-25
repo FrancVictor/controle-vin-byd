@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Relatório de VINs</title>
+</head>
+<body>
+
+<h2>Relatório de VINs - {{ data }}</h2>
+
+<p>Total: {{ total }} unidades</p>
+
+<hr>
+
+{% for vin in vins %}
+<p>{{ vin[0] }}</p>
+{% endfor %}
+
+<br><br>
+
+<a href="/baixar_pdf_vins" target="_blank">
+    <button>Gerar PDF</button>
+</a>
+
+</body>
+</html>

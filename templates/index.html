@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registro BYD</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>BYD</h2>
+    <a href="/">Registro</a>
+    <a href="/config">Meta do Dia</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/exportar_planilha">Exportar Planilha</a>
+</div>
+
+<div class="main">
+
+    <div class="header">Registro BYD</div>
+
+    <div class="card">
+
+        <div class="card">
+        <h3>VINs liberados hoje: {{ total_vins }}</h3>
+        </div>
+
+        {% if erro %}
+        <p class="erro">{{ erro }}</p>
+        {% endif %}
+
+        <form method="POST">
+
+            <input id="vin" name="vin" placeholder="VIN" required autofocus>
+
+            <input id="modelo" name="modelo" placeholder="Modelo" required>
+
+            <input id="lote" name="lote" placeholder="Lote" required>
+
+            <input id="cor" name="cor" placeholder="Cor" required>
+
+            <input id="sap" name="sap" placeholder="SAP" required>
+
+            <input id="conferente" name="conferente" placeholder="Conferente" required>
+
+            <button type="submit">Registrar</button>
+
+        </form>
+        
+        <a href="/resetar_dia" onclick="return confirm('Tem certeza que deseja apagar os registros de hoje?')">
+        <button style="background:red;color:white">
+        Resetar Dia
+        </button>
+</a>
+</button>
+</a>
+
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const campos = ["modelo", "lote", "cor", "sap", "conferente"];
+
+    campos.forEach(function(campo) {
+        let elemento = document.getElementById(campo);
+
+        if (elemento) {
+            let valorSalvo = localStorage.getItem(campo);
+            if (valorSalvo) {
+                elemento.value = valorSalvo;
+            }
+
+            elemento.addEventListener("input", function() {
+                localStorage.setItem(campo, this.value);
+            });
+        }
+    });
+
+    const form = document.querySelector("form");
+    form.addEventListener("submit", function() {
+        setTimeout(function() {
+            let vin = document.getElementById("vin");
+            vin.value = "";
+            vin.focus();
+        }, 100);
+    });
+
+});
+</script>
+
+</body>
+</html>

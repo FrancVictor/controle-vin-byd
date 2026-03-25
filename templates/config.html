@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Configuração do Dia</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="main">
+
+    <div class="header">
+        Configuração do Dia
+    </div>
+
+    <div class="card">
+
+        <p><b>Data:</b> {{ data }}</p>
+
+        <form method="POST">
+
+            <input name="meta" placeholder="Meta do Dia" required>
+
+            <input name="lider" placeholder="Líder" required>
+
+            <input name="suporte" placeholder="Suporte" required>
+
+            <button type="submit">
+                Salvar Configuração
+            </button>
+
+        </form>
+
+        <br>
+
+        <a href="/">
+            <button>
+                Voltar
+            </button>
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
