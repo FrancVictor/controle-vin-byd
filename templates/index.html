@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro BYD</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
+<!-- Navbar mobile -->
+<nav class="navbar">
+    <h2>BYD</h2>
+    <div class="nav-links">
+        <a href="/">Registro</a>
+        <a href="/config">Meta</a>
+        <a href="/dashboard">Dash</a>
+        <a href="/exportar_planilha">Excel</a>
+    </div>
+</nav>
+
+<!-- Sidebar desktop (visivel sÃ³ em tela grande) -->
 <div class="sidebar">
     <h2>BYD</h2>
     <a href="/">Registro</a>
@@ -18,61 +32,47 @@
 
     <div class="header">Registro BYD</div>
 
+    {% if erro %}
+    <div class="msg msg-erro">{{ erro }}</div>
+    {% endif %}
+
     <div class="card">
+        <div class="msg msg-ok" id="counter">VINs hoje: {{ total_vins }}</div>
+    </div>
 
-        <div class="card">
-        <h3>VINs liberados hoje: {{ total_vins }}</h3>
-        </div>
+    <br>
 
-        {% if erro %}
-        <p class="erro">{{ erro }}</p>
-        {% endif %}
-
+    <div class="card">
         <form method="POST">
-
-            <input id="vin" name="vin" placeholder="VIN" required autofocus>
-
+            <input id="vin" name="vin" placeholder="VIN" required autofocus inputmode="text" autocomplete="off">
             <input id="modelo" name="modelo" placeholder="Modelo" required>
-
             <input id="lote" name="lote" placeholder="Lote" required>
-
             <input id="cor" name="cor" placeholder="Cor" required>
-
             <input id="sap" name="sap" placeholder="SAP" required>
-
             <input id="conferente" name="conferente" placeholder="Conferente" required>
-
             <button type="submit">Registrar</button>
-
         </form>
-        
-        <a href="/resetar_dia" onclick="return confirm('Tem certeza que deseja apagar os registros de hoje?')">
-        <button style="background:red;color:white">
-        Resetar Dia
-        </button>
-</a>
-</button>
-</a>
+    </div>
 
+    <br>
+
+    <div class="card">
+        <a href="/resetar_dia" onclick="return confirm('Tem certeza que deseja apagar os registros de hoje?')">
+            <button class="btn-danger">Resetar Dia</button>
+        </a>
     </div>
 
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-
     const campos = ["modelo", "lote", "cor", "sap", "conferente"];
-
     campos.forEach(function(campo) {
-        let elemento = document.getElementById(campo);
-
-        if (elemento) {
-            let valorSalvo = localStorage.getItem(campo);
-            if (valorSalvo) {
-                elemento.value = valorSalvo;
-            }
-
-            elemento.addEventListener("input", function() {
+        let el = document.getElementById(campo);
+        if (el) {
+            let salvo = localStorage.getItem(campo);
+            if (salvo) el.value = salvo;
+            el.addEventListener("input", function() {
                 localStorage.setItem(campo, this.value);
             });
         }
@@ -86,7 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
             vin.focus();
         }, 100);
     });
-
 });
 </script>
 

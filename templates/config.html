@@ -1,49 +1,46 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuração do Dia</title>
-
-    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
 </head>
-
 <body>
+
+<!-- Navbar mobile -->
+<nav class="navbar">
+    <h2>BYD</h2>
+    <div class="nav-links">
+        <a href="/">Registro</a>
+        <a href="/config" class="ativo">Meta</a>
+        <a href="/dashboard">Dash</a>
+        <a href="/exportar_planilha">Excel</a>
+    </div>
+</nav>
+
+<!-- Sidebar desktop -->
+<div class="sidebar">
+    <h2>BYD</h2>
+    <a href="/">Registro</a>
+    <a href="/config">Meta do Dia</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/exportar_planilha">Exportar Planilha</a>
+</div>
 
 <div class="main">
 
-    <div class="header">
-        Configuração do Dia
-    </div>
+    <div class="header">Configuração do Dia</div>
 
     <div class="card">
-
         <p><b>Data:</b> {{ data }}</p>
-
-        <form method="POST">
-
-            <input name="meta" placeholder="Meta do Dia" required>
-
-            <input name="lider" placeholder="Líder" required>
-
-            <input name="suporte" placeholder="Suporte" required>
-
-            <button type="submit">
-                Salvar Configuração
-            </button>
-
-        </form>
-
         <br>
-
-        <a href="/">
-            <button>
-                Voltar
-            </button>
-        </a>
-
+        <form method="POST">
+            <input name="meta" placeholder="Meta do Dia" required inputmode="numeric">
+            <input name="lider" placeholder="Líder" required>
+            <input name="suporte" placeholder="Suporte" required>
+            <button type="submit">Salvar</button>
+        </form>
     </div>
 
 </div>

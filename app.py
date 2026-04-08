@@ -189,15 +189,41 @@ def dashboard():
 
     conn = conectar()
 
-    df = pd.read_sql_query("SELECT * FROM conferencias", conn)
+    # config do dia
+    config = pd.read_sql_query(
+        "SELECT * FROM config_dia WHERE data=?", conn, params=[data_hoje]
+    )
 
+    df = pd.read_sql_query("SELECT * FROM conferencias", conn)
     conn.close()
 
     df = df[df["data_hora"].str.contains(data_hoje)]
 
     total = len(df)
 
-    return render_template("dashboard.html", total=total)
+    if len(config) > 0:
+        meta = int(config["meta"][0])
+        lider = config["lider"][0]
+        suporte = config["suporte"][0]
+    else:
+        meta = 0
+        lider = "-"
+        suporte = "-"
+
+    atingimento = (total / meta * 100) if meta > 0 else 0
+
+    # lotes do dia
+    lotes = df.groupby("lote").size().reset_index(name="qtd").to_dict("records")
+
+    return render_template(
+        "dashboard.html",
+        total=total,
+        meta=meta,
+        lider=líder,
+        suporte=suporte,
+        atingimento=atingimento,
+        lotes=lotes,
+    )
 
 
 # ===============================
@@ -239,7 +265,7 @@ def relatorio():
 
     atingimento = (total / meta * 100) if meta > 0 else 0
 
-    agrupado = df.groupby(["modelo", "sap", "cor"]).size().reset_index(name="qtd")
+    agrupado = df.groupby(["modelo", "lote", "cor", "sap"]).size().reset_index(name="qtd")
 
     # criar PDF
     nome_pdf = "Report_Fechamento.pdf"
@@ -264,7 +290,7 @@ def relatorio():
 
     for _, row in agrupado.iterrows():
 
-        texto = f"{row['modelo']} | SAP {row['sap']} | {row['cor']} — {row['qtd']} UND"
+        texto = f"{row['modelo']} | Lote {row['lote']} | Cor {row['cor']} | SAP {row['sap']} — {row['qtd']} UND"
 
         elementos.append(Paragraph(texto, styles["Normal"]))
 
@@ -287,8 +313,9 @@ def baixar_pdf_vins():
     cursor = conn.cursor()
 
     cursor.execute("""
-    SELECT vin FROM conferencias
+    SELECT vin, modelo, lote, cor, sap, conferente FROM conferencias
     WHERE data_hora LIKE ?
+    ORDER BY id
     """, (f"%{data_hoje}%",))
 
     dados = cursor.fetchall()
@@ -299,22 +326,55 @@ def baixar_pdf_vins():
 
     c = canvas.Canvas(arquivo, pagesize=letter)
 
-    y = 750
+    largura, altura = letter
 
+    y = altura - 50
+
+    c.setFont("Helvetica-Bold", 14)
     c.drawString(50, y, f"VINs do dia - {data_hoje}")
+    y -= 25
 
-    y -= 20
+    # Cabecalho da tabela
+    c.setFont("Helvetica-Bold", 8)
+    c.drawString(50, y, "VIN")
+    c.drawString(190, y, "Modelo")
+    c.drawString(240, y, "Lote")
+    c.drawString(280, y, "Cor")
+    c.drawString(380, y, "SAP")
+    c.drawString(460, y, "Conferente")
+    y -= 5
+    c.line(40, y, 590, y)
+    y -= 10
+
+    c.setFont("Helvetica", 8)
 
     for registro in dados:
 
-        c.drawString(60, y, registro[0])
-
-        y -= 12
-
         if y < 50:
-
             c.showPage()
-            y = 750
+            y = altura - 50
+            c.setFont("Helvetica-Bold", 10)
+            c.drawString(50, y, f"VINs do dia - {data_hoje} (cont.)")
+            y -= 20
+            c.setFont("Helvetica-Bold", 8)
+            c.drawString(50, y, "VIN")
+            c.drawString(190, y, "Modelo")
+            c.drawString(240, y, "Lote")
+            c.drawString(280, y, "Cor")
+            c.drawString(380, y, "SAP")
+            c.drawString(460, y, "Conferente")
+            y -= 5
+            c.line(40, y, 590, y)
+            y -= 10
+            c.setFont("Helvetica", 8)
+
+        c.drawString(50, y, registro[0])
+        c.drawString(190, y, str(registro[1]))
+        c.drawString(240, y, str(registro[2]))
+        c.drawString(280, y, str(registro[3]))
+        c.drawString(380, y, str(registro[4]))
+        c.drawString(460, y, str(registro[5]))
+        y -= 12
 
     c.save()
 

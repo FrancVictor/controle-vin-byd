@@ -1,37 +1,79 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard BYD</title>
-
-    <!-- CSS precisa ficar no HEAD -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
+
+<!-- Navbar mobile -->
+<nav class="navbar">
+    <h2>BYD</h2>
+    <div class="nav-links">
+        <a href="/">Registro</a>
+        <a href="/config">Meta</a>
+        <a href="/dashboard" class="ativo">Dash</a>
+        <a href="/exportar_planilha">Excel</a>
+    </div>
+</nav>
+
+<!-- Sidebar desktop -->
+<div class="sidebar">
+    <h2>BYD</h2>
+    <a href="/">Registro</a>
+    <a href="/config">Meta do Dia</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/exportar_planilha">Exportar Planilha</a>
+</div>
 
 <div class="main">
 
-    <div class="header">
-        Dashboard Produção
+    <div class="header">Dashboard Produo</div>
+
+    <!-- Stats -->
+    <div class="stats">
+        <div class="stat-card stat-meta">
+            <h3>Meta</h3>
+            <span>{{ meta }}</span>
+        </div>
+        <div class="stat-card stat-prod">
+            <h3>Total</h3>
+            <span>{{ total }}</span>
+        </div>
+        <div class="stat-card stat-pct">
+            <h3>Ating.</h3>
+            <span>{{ "%.1f"|format(atingimento) }}%</span>
+        </div>
     </div>
 
+    <!-- Lotes -->
+    {% if lotes %}
+    <div class="card" style="margin-bottom:12px">
+        <h3 style="margin-bottom:10px; font-size:16px">Detalhe por Lote</h3>
+        {% for lote in lotes %}
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:15px">
+            <span><b>{{ lote.lote }}</b></span>
+            <span>{{ lote.qtd }} UND</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Aces -->
     <div class="card">
-
-        <h2>Total hoje: {{ total }}</h2>
-
-        <br>
-
-        <a href="/relatorio">
-            <button>Baixar Report de Fechamento</button>
+        <a href="/relatorio" target="_blank">
+            <button class="btn-success">Baixar Report de Fechamento (PDF)</button>
         </a>
-
-        <br><br>
-
+        <div class="btn-spacer"></div>
+        <a href="/baixar_pdf_vins" target="_blank">
+            <button class="btn-warn">Baixar Lista de VINs (PDF)</button>
+        </a>
+        <div class="btn-spacer"></div>
         <a href="/">
-            <button>Voltar</button>
+            <button>Voltar ao Registro</button>
         </a>
-
     </div>
 
 </div>
