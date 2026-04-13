@@ -2,7 +2,7 @@
 # IMPORTAÇÕES
 # ===============================
 
-from flask import Flask, render_template, request, redirect, send_file
+from flask import Flask, render_template, request, redirect, send_file, flash
 import sqlite3
 from datetime import datetime
 import pandas as pd
