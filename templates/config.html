@@ -1,49 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuração do Dia</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Configurar Dia - Controle BYD</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 10px; }
+        .container { max-width: 600px; margin: auto; }
+        h1 { text-align: center; color: #0d6efd; font-size: 1.5em; margin-bottom: 20px; }
+        .card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #495057; }
+        input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ced4da; border-radius: 4px; font-size: 14px; }
+        button { width: 100%; padding: 12px; background: #0d6efd; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        button:hover { background: #0b5ed7; }
+        .back-link { display: inline-block; margin: 15px 0; padding: 10px 15px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-size: 14px; }
+    </style>
 </head>
 <body>
-
-<!-- Navbar mobile -->
-<nav class="navbar">
-    <h2>BYD</h2>
-    <div class="nav-links">
-        <a href="/">Registro</a>
-        <a href="/config" class="ativo">Meta</a>
-        <a href="/dashboard">Dash</a>
-        <a href="/exportar_planilha">Excel</a>
+    <div class="container">
+        <h1>⚙️ Configurar Dia</h1>
+        <div class="card">
+            <p style="text-align:center; color:#6c757d; margin-bottom:15px;">Data: {{ data }}</p>
+            <form method="POST">
+                <label>Meta do Dia</label>
+                <input type="number" name="meta" placeholder="Quantidade alvo" required>
+                <label>Líder</label>
+                <input type="text" name="lider" placeholder="Nome do líder" required>
+                <label>Suporte</label>
+                <input type="text" name="suporte" placeholder="Nome do suporte" required>
+                <button type="submit">Salvar Configuração</button>
+            </form>
+            <a href="/" class="back-link">← Voltar</a>
+        </div>
     </div>
-</nav>
-
-<!-- Sidebar desktop -->
-<div class="sidebar">
-    <h2>BYD</h2>
-    <a href="/">Registro</a>
-    <a href="/config">Meta do Dia</a>
-    <a href="/dashboard">Dashboard</a>
-    <a href="/exportar_planilha">Exportar Planilha</a>
-</div>
-
-<div class="main">
-
-    <div class="header">Configuração do Dia</div>
-
-    <div class="card">
-        <p><b>Data:</b> {{ data }}</p>
-        <br>
-        <form method="POST">
-            <input name="meta" placeholder="Meta do Dia" required inputmode="numeric">
-            <input name="lider" placeholder="Líder" required>
-            <input name="suporte" placeholder="Suporte" required>
-            <button type="submit">Salvar</button>
-        </form>
-    </div>
-
-</div>
-
 </body>
 </html>

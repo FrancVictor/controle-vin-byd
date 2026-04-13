@@ -1,82 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard BYD</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Dashboard - Controle BYD</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 10px; }
+        .container { max-width: 800px; margin: auto; }
+        h1 { text-align: center; color: #0d6efd; font-size: 1.5em; margin-bottom: 20px; }
+        .card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .stats { display: flex; justify-content: space-around; flex-wrap: wrap; margin: 15px 0; }
+        .stat-box { text-align: center; padding: 15px; background: #e7f1ff; border-radius: 8px; flex: 1; min-width: 120px; margin: 5px; }
+        .stat-box .number { font-size: 24px; font-weight: bold; color: #0d6efd; }
+        .stat-box .label { font-size: 12px; color: #6c757d; margin-top: 5px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #dee2e6; }
+        th { background: #f8f9fa; color: #495057; }
+        tr:hover { background: #f8f9fa; }
+        .btn { display: inline-block; margin: 10px 5px; padding: 10px 15px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-size: 13px; }
+        .btn:hover { background: #5a6268; }
+    </style>
 </head>
 <body>
-
-<!-- Navbar mobile -->
-<nav class="navbar">
-    <h2>BYD</h2>
-    <div class="nav-links">
-        <a href="/">Registro</a>
-        <a href="/config">Meta</a>
-        <a href="/dashboard" class="ativo">Dash</a>
-        <a href="/exportar_planilha">Excel</a>
-    </div>
-</nav>
-
-<!-- Sidebar desktop -->
-<div class="sidebar">
-    <h2>BYD</h2>
-    <a href="/">Registro</a>
-    <a href="/config">Meta do Dia</a>
-    <a href="/dashboard">Dashboard</a>
-    <a href="/exportar_planilha">Exportar Planilha</a>
-</div>
-
-<div class="main">
-
-    <div class="header">Dashboard Produo</div>
-
-    <!-- Stats -->
-    <div class="stats">
-        <div class="stat-card stat-meta">
-            <h3>Meta</h3>
-            <span>{{ meta }}</span>
+    <div class="container">
+        <h1>📊 Dashboard</h1>
+        <div class="card">
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="number">{{ total_vins }}</div>
+                    <div class="label">Hoje</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">{{ total_geral or 0 }}</div>
+                    <div class="label">Total</div>
+                </div>
+            </div>
+            <a href="/" class="btn">➕ Novo Registro</a>
+            <a href="/" class="btn">🔄 Atualizar</a>
         </div>
-        <div class="stat-card stat-prod">
-            <h3>Total</h3>
-            <span>{{ total }}</span>
+        <div class="card">
+            <h3 style="margin-bottom:15px;">Registros Hoje</h3>
+            <table>
+                <thead><tr><th>VIN</th><th>Modelo</th><th>Lote</th><th>Cor</th><th>SAP</th><th>Conferente</th><th>Data/Hora</th></tr></thead>
+                <tbody>
+                {% for row in hoje %}
+                <tr>
+                    <td>{{ row.vin }}</td>
+                    <td>{{ row.modelo }}</td>
+                    <td>{{ row.lote }}</td>
+                    <td>{{ row.cor }}</td>
+                    <td>{{ row.sap or "-" }}</td>
+                    <td>{{ row.conferente }}</td>
+                    <td>{{ row.data_hora }}</td>
+                </tr>
+                {% endfor %}
+                {% if hoje|length == 0 %}
+                <tr><td colspan="7" style="text-align:center;">Sem registros hoje</td></tr>
+                {% endif %}
+                </tbody>
+            </table>
         </div>
-        <div class="stat-card stat-pct">
-            <h3>Ating.</h3>
-            <span>{{ "%.1f"|format(atingimento) }}%</span>
+        <div class="card">
+            <h3 style="margin-bottom:15px;">Últimos Registros</h3>
+            <table>
+                <thead><tr><th>VIN</th><th>Modelo</th><th>Lote</th><th>Cor</th><th>Data/Hora</th></tr></thead>
+                <tbody>
+                {% for row in recent %}
+                <tr>
+                    <td>{{ row.vin }}</td>
+                    <td>{{ row.modelo }}</td>
+                    <td>{{ row.lote }}</td>
+                    <td>{{ row.cor }}</td>
+                    <td>{{ row.data_hora }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="/" class="btn" style="margin-top:10px;">↩️ Voltar</a>
         </div>
     </div>
-
-    <!-- Lotes -->
-    {% if lotes %}
-    <div class="card" style="margin-bottom:12px">
-        <h3 style="margin-bottom:10px; font-size:16px">Detalhe por Lote</h3>
-        {% for lote in lotes %}
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:15px">
-            <span><b>{{ lote.lote }}</b></span>
-            <span>{{ lote.qtd }} UND</span>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
-    <!-- Aces -->
-    <div class="card">
-        <a href="/relatorio" target="_blank">
-            <button class="btn-success">Baixar Report de Fechamento (PDF)</button>
-        </a>
-        <div class="btn-spacer"></div>
-        <a href="/baixar_pdf_vins" target="_blank">
-            <button class="btn-warn">Baixar Lista de VINs (PDF)</button>
-        </a>
-        <div class="btn-spacer"></div>
-        <a href="/">
-            <button>Voltar ao Registro</button>
-        </a>
-    </div>
-
-</div>
-
 </body>
 </html>
