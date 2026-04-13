@@ -248,6 +248,19 @@ def dashboard():
             logging.error(f"Erro ao contar total geral: {e}")
             total_geral = 0
 
+        # Buscar últimos registros para exibição
+        try:
+            cursor.execute("""
+                SELECT vin, modelo, lote, cor, sap, conferente, data_hora
+                FROM conferencias
+                ORDER BY data_hora DESC
+                LIMIT 10
+            """)
+            recent = cursor.fetchall()
+        except sqlite3.Error as e:
+            logging.error(f"Erro ao buscar registros recentes: {e}")
+            recent = []
+
         conn.close()
 
         return render_template("dashboard.html",
