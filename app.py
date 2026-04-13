@@ -137,6 +137,7 @@ def index():
                         conn.close()
 
                 if erro is None:
+                    flash(f"Lote {lote} - SAP {sap or 'N/A'} - Modelo {modelo} cadastrado com sucesso!")
                     return redirect("/")
 
         # ---------------------------
