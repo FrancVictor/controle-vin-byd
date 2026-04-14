@@ -273,33 +273,28 @@ def dashboard():
                              total_vins=total_vins,
                              total_geral=total_geral,
                              recent=recent)
+
+
+# ===============================
+# ROTA DE LIMPEZA
+# ===============================
+
+@app.route("/limpar", methods=["GET"])
+def limpar_rota():
+    """Rota para limpar o banco de dados via request manual."""
+    try:
+        sucesso = limpar_banco_forcado()
+        if sucesso:
+            flash("Banco de dados limpo com sucesso!")
+        else:
+            flash("Erro ao limpar banco de dados.")
+    except Exception as e:
+        logging.error(f"Erro na rota /limpar: {e}")
+        flash("Erro inesperado ao limpar o banco.")
+    return redirect("/")
     except Exception as e:
         logging.error(f"Erro inesperado na rota '/dashboard': {e}")
         return "Erro interno no servidor", 500
-
-
-# ===============================
-# ROTINA DE LIMPEZA (AGENDADA)
-# ===============================
-
-def limpar_banco_forcado():
-    """
-    Função para limpar o banco de dados - útil para PDA quando conectado.
-    Use com cuidado - remove todos os registros exceto as configurações do dia.
-    """
-    try:
-        conn = conectar()
-        cursor = conn.cursor()
-        data_hoje = datetime.now().strftime("%d/%m/%Y")
-
-        # Exclui registros antigos, mantendo os do dia
-        cursor.execute("DELETE FROM conferencias WHERE date(data_hora) != date(?)", (data_hoje,))
-        conn.commit()
-        conn.close()
-        return True
-    except sqlite3.Error as e:
-        logging.error(f"Erro ao limpar banco: {e}")
-        return False
 
 
 # ===============================
