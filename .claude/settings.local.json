@@ -4,7 +4,8 @@
       "Bash(timeout 10 python app.py)",
       "Bash(python -c \":*)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5000/)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5000/dashboard)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5000/dashboard)",
+      "Bash(grep -v \"^$\")"
     ]
   }
 }

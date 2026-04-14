@@ -138,7 +138,6 @@ def index():
                         conn.close()
 
                 if erro is None:
-                    flash(f"Lote {lote} - SAP {sap or 'N/A'} - Modelo {modelo} cadastrado com sucesso!")
                     return redirect("/")
 
         # ---------------------------
@@ -297,6 +296,30 @@ def limpar_rota():
         logging.error(f"Erro na rota /limpar: {e}")
         flash("Erro inesperado ao limpar o banco.")
     return redirect("/")
+@app.route("/exportar_planilha")
+def exportar_planilha():
+    """Exporta os registros para um arquivo Excel."""
+    try:
+        conn = conectar()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM conferencias ORDER BY data_hora DESC")
+        registros = cursor.fetchall()
+        conn.close()
+
+        # Cria DataFrame do pandas
+        df = pd.DataFrame(registros, columns=['id', 'vin', 'modelo', 'lote', 'cor', 'sap', 'status', 'conferente', 'data_hora'])
+
+        # Caminho do arquivo
+        caminho_arquivo = 'registros_exportados.xlsx'
+        df.to_excel(caminho_arquivo, index=False)
+
+        return send_file(caminho_arquivo, as_attachment=True)
+    except Exception as e:
+        logging.error(f"Erro ao exportar planilha: {e}")
+        flash("Erro ao gerar planilha de exportação.")
+        return redirect("/")
+
+
 @app.route("/resetar_dia", methods=["GET"])
 def resetar_dia():
     """Rota para resetar os registros do dia atual."""
