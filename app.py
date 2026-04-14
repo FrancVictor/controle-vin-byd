@@ -149,10 +149,12 @@ def index():
             data_hoje = datetime.now().strftime("%d/%m/%Y")
 
             # Usar consulta SQL para contar diretamente no banco
+            # Converter dd/mm/yyyy para yyyy-mm-dd para o SQLite
+            data_formatada = '-'.join(data_hoje.split('/')[::-1])
             cursor.execute("""
                 SELECT COUNT(*) FROM conferencias
-                WHERE date(data_hora) = date(?)
-            """, (data_hoje,))
+                WHERE date(substr(data_hora, 7, 4) || '-' || substr(data_hora, 4, 2) || '-' || substr(data_hora, 1, 2)) = date(?)
+            """, (data_formatada,))
             total_vins = cursor.fetchone()[0]
         except sqlite3.Error as e:
             logging.error(f"Erro ao contar VINs: {e}")
@@ -232,10 +234,12 @@ def dashboard():
 
         # Total de VINs do dia - usar SQL diretamente
         try:
+            # Converter dd/mm/yyyy para yyyy-mm-dd para o SQLite
+            data_formatada = '-'.join(data_hoje.split('/')[::-1])
             cursor.execute("""
                 SELECT COUNT(*) FROM conferencias
-                WHERE date(data_hora) = date(?)
-            """, (data_hoje,))
+                WHERE date(substr(data_hora, 7, 4) || '-' || substr(data_hora, 4, 2) || '-' || substr(data_hora, 1, 2)) = date(?)
+            """, (data_formatada,))
             total_vins = cursor.fetchone()[0]
         except sqlite3.Error as e:
             logging.error(f"Erro ao contar VINs: {e}")

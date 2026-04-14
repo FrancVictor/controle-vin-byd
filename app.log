@@ -1,1 +1,2 @@
 2026-04-13 18:15:54,740 - ERROR - Erro inesperado na rota '/dashboard': name 'recent' is not defined
+2026-04-13 19:36:02,522 - ERROR - Erro inesperado na rota '/' : name 'flash' is not defined
