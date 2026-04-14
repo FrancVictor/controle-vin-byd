@@ -323,6 +323,7 @@ def exportar_planilha():
 @app.route("/resetar_dia", methods=["GET"])
 def resetar_dia():
     """Rota para resetar os registros do dia atual."""
+    
     try:
         sucesso = limpar_banco_forcado()
         if sucesso:

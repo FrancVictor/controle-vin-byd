@@ -40,6 +40,23 @@
         <div class="msg msg-ok" id="counter">VINs hoje: {{ total_vins }}</div>
     </div>
 
+    <!-- Cards de estatísticas por lote -->
+    <div class="cards-container">
+        {% for card in cards %}
+        <div class="card-lote">
+            <h3>{{ card.modelo }}</h3>
+            <p>Lote: {{ card.lote }}</p>
+            <p>Cor: {{ card.cor }}</p>
+            <p>SAP: {{ card.sap }}</p>
+            <p><strong>{{ card.qtd }} / 120</strong></p>
+            <div class="barra">
+                <div class="progresso" style="width: {{ card.porcentagem }}%"></div>
+            </div>
+            <p>{{ card.porcentagem }}%</p>
+        </div>
+        {% endfor %}
+    </div>
+
     <br>
 
     <div class="card">
