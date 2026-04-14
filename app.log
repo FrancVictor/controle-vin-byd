@@ -1,2 +1,40 @@
 2026-04-13 18:15:54,740 - ERROR - Erro inesperado na rota '/dashboard': name 'recent' is not defined
 2026-04-13 19:36:02,522 - ERROR - Erro inesperado na rota '/' : name 'flash' is not defined
+2026-04-13 23:41:33,702 - ERROR - Erro na rota /resetar_dia: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+2026-04-13 23:41:33,702 - ERROR - Exception on /resetar_dia [GET]
+Traceback (most recent call last):
+  File "C:\Users\João Victor\Desktop\controle_byd_diario\app.py", line 305, in resetar_dia
+    flash("Registros do dia apagados com sucesso!")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\João Victor\Desktop\controle_byd_diario\venv\Lib\site-packages\flask\helpers.py", line 342, in flash
+    session["_flashes"] = flashes
+    ~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\João Victor\Desktop\controle_byd_diario\venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\João Victor\Desktop\controle_byd_diario\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\João Victor\Desktop\controle_byd_diario\venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\João Victor\Desktop\controle_byd_diario\venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\João Victor\Desktop\controle_byd_diario\venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\João Victor\Desktop\controle_byd_diario\app.py", line 310, in resetar_dia
+    flash("Erro inesperado ao resetar o dia.")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\João Victor\Desktop\controle_byd_diario\venv\Lib\site-packages\flask\helpers.py", line 342, in flash
+    session["_flashes"] = flashes
+    ~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\João Victor\Desktop\controle_byd_diario\venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.

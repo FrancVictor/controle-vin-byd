@@ -19,6 +19,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 
 app = Flask(__name__)
+app.secret_key = 'controle_byd_diario_2026'  # necessário para flash
 
 
 # ===============================
@@ -274,6 +275,10 @@ def dashboard():
                              total_geral=total_geral,
                              recent=recent)
 
+    except Exception as e:
+        logging.error(f"Erro inesperado na rota '/dashboard': {e}")
+        return "Erro interno no servidor", 500
+
 
 # ===============================
 # ROTA DE LIMPEZA
@@ -292,11 +297,19 @@ def limpar_rota():
         logging.error(f"Erro na rota /limpar: {e}")
         flash("Erro inesperado ao limpar o banco.")
     return redirect("/")
+@app.route("/resetar_dia", methods=["GET"])
+def resetar_dia():
+    """Rota para resetar os registros do dia atual."""
+    try:
+        sucesso = limpar_banco_forcado()
+        if sucesso:
+            flash("Registros do dia apagados com sucesso!")
+        else:
+            flash("Erro ao apagar registros do dia.")
     except Exception as e:
-        logging.error(f"Erro inesperado na rota '/dashboard': {e}")
-        return "Erro interno no servidor", 500
-
-
+        logging.error(f"Erro na rota /resetar_dia: {e}")
+        flash("Erro inesperado ao resetar o dia.")
+    return redirect("/")
 # ===============================
 # ROTINA DE LIMPEZA (AGENDADA)
 # ===============================
